@@ -1,5 +1,5 @@
 import { Check, Delete, Edit2 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Task } from '../model';
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 const SingleTask: React.FC<Props> = ({ task, tasks, setTasks }: Props) => {
   const [editing, setEditing] = useState<boolean>(false);
 
-  const [editedTask, setEditedTask] = useState<string>(task.task);
+  const [editingTask, setEditingTask] = useState<string>(task.task);
 
   const doneHandler = (id: number) => {
     setTasks(
@@ -25,11 +25,49 @@ const SingleTask: React.FC<Props> = ({ task, tasks, setTasks }: Props) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
+  const editingHandler = () => {
+    if (!editing && !task.isDone) setEditing(!editing);
+  };
+
+  const editingTaskHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEditingTask(event.target.value);
+  };
+
+  const editInputHandler = (
+    event: React.FormEvent<HTMLFormElement>,
+    id: number
+  ) => {
+    event.preventDefault();
+
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, task: editingTask } : task
+      )
+    );
+    setEditing(false);
+  };
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [editing]);
+
   return (
-    <form>
-      {task.isDone ? <s>{task.task}</s> : <span>{task.task}</span>}
+    <form onSubmit={(event) => editInputHandler(event, task.id)}>
+      {editing ? (
+        <input
+          ref={inputRef}
+          value={editingTask}
+          onChange={editingTaskHandler}
+        />
+      ) : task.isDone ? (
+        <s>{task.task}</s>
+      ) : (
+        <span>{task.task}</span>
+      )}
       <div>
-        <span>
+        <span onClick={editingHandler}>
           <Edit2 />
         </span>
         <span onClick={() => deleteHandler(task.id)}>
