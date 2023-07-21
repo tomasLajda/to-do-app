@@ -1,3 +1,4 @@
+import { CalendarCheck2 } from 'lucide-react';
 import { useState } from 'react';
 import './App.css';
 import InputField from './components/input-field.component';
@@ -18,10 +19,15 @@ const App: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>ToDo: Your Task List</h1>
-      <InputField task={task} setTask={setTask} handleAdd={handleAdd} />
-      <TaskList tasks={tasks} setTasks={setTasks} />
+    <div className="bg-red-500 h-screen w-screen flex justify-center">
+      <div className="flex flex-col max-w-screen-md w-full space-y-8 mt-10 p-2">
+        <div className="flex justify-center space-x-4 text-slate-50 ">
+          <h1 className="text-5xl sm:text-6xl">Your Task List</h1>
+          <CalendarCheck2 size={60} />
+        </div>
+        <InputField task={task} setTask={setTask} handleAdd={handleAdd} />
+        <TaskList tasks={tasks} setTasks={setTasks} />
+      </div>
     </div>
   );
 };

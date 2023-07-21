@@ -1,6 +1,7 @@
 import { Check, Delete, Edit2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Task } from '../model';
+import { Input } from './ui/input';
 
 interface Props {
   task: Task;
@@ -54,19 +55,26 @@ const SingleTask: React.FC<Props> = ({ task, tasks, setTasks }: Props) => {
   }, [editing]);
 
   return (
-    <form onSubmit={(event) => editInputHandler(event, task.id)}>
-      {editing ? (
-        <input
-          ref={inputRef}
-          value={editingTask}
-          onChange={editingTaskHandler}
-        />
-      ) : task.isDone ? (
-        <s>{task.task}</s>
-      ) : (
-        <span>{task.task}</span>
-      )}
-      <div>
+    <form
+      className="bg-slate-100 h-12 p-2 rounded-md flex justify-between items-center "
+      onSubmit={(event) => editInputHandler(event, task.id)}
+    >
+      <div className="max-w-xs">
+        {editing ? (
+          <Input
+            className="border-slate-950 border-2 h-8"
+            ref={inputRef}
+            value={editingTask}
+            onChange={editingTaskHandler}
+            placeholder="Enter your task"
+          />
+        ) : task.isDone ? (
+          <s>{task.task}</s>
+        ) : (
+          <span>{task.task}</span>
+        )}
+      </div>
+      <div className="flex space-x-1">
         <span onClick={editingHandler}>
           <Edit2 />
         </span>
@@ -74,7 +82,7 @@ const SingleTask: React.FC<Props> = ({ task, tasks, setTasks }: Props) => {
           <Delete />
         </span>
         <span onClick={() => doneHandler(task.id)}>
-          <Check />9
+          <Check />
         </span>
       </div>
     </form>

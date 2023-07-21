@@ -1,4 +1,6 @@
 import { useRef } from 'react';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
 
 interface Props {
   task: string;
@@ -18,15 +20,22 @@ const InputField: React.FC<Props> = ({ task, setTask, handleAdd }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <form action="" onSubmit={handleAddHandler}>
-      <input
+    <form
+      action=""
+      onSubmit={handleAddHandler}
+      className="flex items-center w-full"
+    >
+      <Input
+        className="bg-slate-100 rounded-r-none focus-visible:border-2 focus-visible:border-slate-950"
         ref={inputRef}
         type="input"
         value={task}
         onChange={setTaskHandler}
         placeholder="Enter your task"
       />
-      <button type="submit">Submit Task</button>
+      <Button className="rounded-l-none" type="submit">
+        Submit Task
+      </Button>
     </form>
   );
 };
