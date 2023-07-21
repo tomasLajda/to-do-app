@@ -33,7 +33,7 @@ const InputField: React.FC<Props> = ({ task, setTask, handleAdd }: Props) => {
         onChange={setTaskHandler}
         placeholder="Enter your task"
       />
-      <Button className="rounded-l-none" type="submit">
+      <Button className="rounded-l-none w-32" type="submit">
         Submit Task
       </Button>
     </form>
